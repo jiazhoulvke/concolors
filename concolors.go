@@ -25,6 +25,10 @@ func Highlight(str string, subStr string, normalColorFunc colorFunc, highlightCo
 	return bs.String()
 }
 
+func Normal(str string) string {
+	return str
+}
+
 func Black(str string) string {
 	return "\033[30m" + str + "\033[0m"
 }
