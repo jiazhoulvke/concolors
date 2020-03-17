@@ -1,5 +1,30 @@
 package concolors
 
+import (
+	"bytes"
+	"strings"
+)
+
+type colorFunc func(string) string
+
+func Highlight(str string, subStr string, normalColorFunc colorFunc, highlightColorFunc colorFunc) string {
+	bs := bytes.NewBuffer([]byte(""))
+	for {
+		i := strings.Index(str, subStr)
+		if i == -1 {
+			bs.WriteString(normalColorFunc(str))
+			break
+		}
+		bs.WriteString(normalColorFunc(str[0:i]))
+		bs.WriteString(highlightColorFunc(subStr))
+		str = str[i+len(subStr):]
+		if len(str) == 0 {
+			break
+		}
+	}
+	return bs.String()
+}
+
 func Black(str string) string {
 	return "\033[30m" + str + "\033[0m"
 }
